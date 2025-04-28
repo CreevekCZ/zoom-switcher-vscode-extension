@@ -13,9 +13,6 @@ Do you frequently switch between multiple monitors with different resolutions? D
 - **Visible Indicator**: Shows current zoom level in the status bar
 - **Fully Customizable**: Position, appearance, and zoom presets can all be configured
 
-<!-- Note: You'll need to create a demo.gif file in the assets folder to replace this placeholder -->
-![Zoom Switcher Demo](assets/demo.gif)
-
 ## How to Use
 
 1. Look for the zoom indicator in the status bar (displays as a magnifying glass icon with the current zoom level)
