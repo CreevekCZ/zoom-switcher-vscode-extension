@@ -4,10 +4,15 @@
   "description": "Quickly switch between predefined zoom levels via a dropdown menu in the VS Code status bar. Perfect for changing text size when switching between monitors or for presentations.",
   "version": "0.0.1",
   "license": "MIT",
+  "publisher": "CreevekCZ",
   "author": {
     "name": "Jan Kožnárek",
     "email": "jan@koznarek.cz",
     "url": "https://jan.koznarek.cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CreevekCZ/zoom-switcher-vscode-extension"
   },
   "icon": "assets/icon.png",
   "engines": {
