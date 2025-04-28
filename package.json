@@ -1,0 +1,131 @@
+{
+  "name": "zoom-switcher",
+  "displayName": "Zoom Switcher",
+  "description": "Quickly switch between predefined zoom levels via a dropdown menu in the VS Code status bar. Perfect for changing text size when switching between monitors or for presentations.",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "Jan Kožnárek",
+    "email": "jan@koznarek.cz",
+    "url": "https://jan.koznarek.cz"
+  },
+  "icon": "assets/icon.png",
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "zoom-switcher.selectZoom",
+        "title": "Select Zoom Level"
+      },
+      {
+        "command": "zoom-switcher.refreshZoom",
+        "title": "Refresh Zoom Switcher"
+      },
+      {
+        "command": "zoom-switcher.addZoomLevel",
+        "title": "Add New Zoom Level",
+        "category": "Zoom Switcher"
+      },
+      {
+        "command": "zoom-switcher.editZoomLevels",
+        "title": "Edit Zoom Levels",
+        "category": "Zoom Switcher"
+      },
+      {
+        "command": "zoom-switcher.viewZoomLevels",
+        "title": "View All Zoom Levels",
+        "category": "Zoom Switcher"
+      }
+    ],
+    "configuration": {
+      "title": "Zoom Switcher",
+      "properties": {
+        "zoomSwitcher.zoomLevels": {
+          "type": "array",
+          "default": [
+            {
+              "name": "Zoom Out",
+              "level": -0.5
+            },
+            {
+              "name": "Default",
+              "level": 0
+            },
+            {
+              "name": "Zoom In",
+              "level": 0.5
+            }
+          ],
+          "items": {
+            "type": "object",
+            "required": ["name", "level"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Display name for the zoom level"
+              },
+              "level": {
+                "type": "number",
+                "description": "Zoom level value"
+              }
+            }
+          },
+          "description": "List of zoom levels to be displayed in the dropdown",
+          "markdownDescription": "Define custom zoom levels that will appear in the dropdown menu.\n\nEach zoom level consists of a name (displayed in the dropdown) and a level value (the actual zoom value to be applied).\n\n**Example:**\n```json\n[\n  {\n    \"name\": \"Small Text\",\n    \"level\": -1\n  },\n  {\n    \"name\": \"Default\",\n    \"level\": 0\n  },\n  {\n    \"name\": \"Presentation\",\n    \"level\": 2\n  }\n]\n```"
+        },
+        "zoomSwitcher.showCurrentZoomLevel": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the current zoom level in the status bar",
+          "markdownDescription": "When enabled, shows the current zoom level in the status bar next to the zoom icon"
+        },
+        "zoomSwitcher.position": {
+          "type": "string",
+          "enum": ["left", "right"],
+          "default": "right",
+          "description": "Position of the zoom switcher in the status bar (left or right)"
+        },
+        "zoomSwitcher.priority": {
+          "type": "number",
+          "default": 100,
+          "description": "Priority of the status bar item (higher values mean closer to the left/right edge)",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.99.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "eslint": "^9.23.0",
+    "typescript": "^5.8.2",
+    "ts-loader": "^9.5.2",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
