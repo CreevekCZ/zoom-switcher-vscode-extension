@@ -29,7 +29,8 @@ This extension contributes the following settings:
   * `name`: Display name for the zoom level (e.g., "Presentation Mode", "Laptop", "External Monitor")
   * `level`: The zoom level value (e.g., -0.5, 0, 0.5)
 
-* `zoomSwitcher.showCurrentZoomLevel`: When enabled, shows the current zoom level in the status bar next to the zoom icon (default: true)
+* `zoomSwitcher.showZoomValue`: When enabled, shows the numeric zoom value in the status bar (default: true)
+* `zoomSwitcher.showProfileName`: When enabled, shows the current zoom profile name in the status bar (default: false)
 
 * `zoomSwitcher.position`: Position of the zoom switcher in the status bar - "left" or "right" (default: "right")
 

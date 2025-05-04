@@ -2,7 +2,7 @@
   "name": "zoom-switcher",
   "displayName": "Zoom Switcher",
   "description": "Quickly switch between predefined zoom levels via a dropdown menu in the VS Code status bar. Perfect for changing text size when switching between monitors or for presentations.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "publisher": "CreevekCZ",
   "author": {
@@ -87,11 +87,17 @@
           "description": "List of zoom levels to be displayed in the dropdown",
           "markdownDescription": "Define custom zoom levels that will appear in the dropdown menu.\n\nEach zoom level consists of a name (displayed in the dropdown) and a level value (the actual zoom value to be applied).\n\n**Example:**\n```json\n[\n  {\n    \"name\": \"Small Text\",\n    \"level\": -1\n  },\n  {\n    \"name\": \"Default\",\n    \"level\": 0\n  },\n  {\n    \"name\": \"Presentation\",\n    \"level\": 2\n  }\n]\n```"
         },
-        "zoomSwitcher.showCurrentZoomLevel": {
+        "zoomSwitcher.showZoomValue": {
           "type": "boolean",
           "default": true,
-          "description": "Show the current zoom level in the status bar",
-          "markdownDescription": "When enabled, shows the current zoom level in the status bar next to the zoom icon"
+          "description": "Show the numeric zoom value in the status bar",
+          "markdownDescription": "When enabled, shows the numeric zoom value (e.g., 1.5) in the status bar"
+        },
+        "zoomSwitcher.showProfileName": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show the zoom profile name in the status bar",
+          "markdownDescription": "When enabled, shows the name of the current zoom profile (e.g., 'Presentation Mode') in the status bar"
         },
         "zoomSwitcher.position": {
           "type": "string",
@@ -104,6 +110,34 @@
           "default": 100,
           "description": "Priority of the status bar item (higher values mean closer to the left/right edge)",
           "minimum": 0
+        },
+        "zoomSwitcher.statusBarIcon": {
+          "type": "string",
+          "enum": [
+            "zoom-in",
+            "zoom-out",
+            "screen-full",
+            "telescope",
+            "search",
+            "eye",
+            "symbol-ruler",
+            "layout",
+            "window"
+          ],
+          "default": "zoom-in",
+          "enumDescriptions": [
+            "Zoom in icon (magnifying glass with plus)",
+            "Zoom out icon (magnifying glass with minus)",
+            "Fullscreen icon",
+            "Telescope icon",
+            "Magnifying glass icon",
+            "Eye icon",
+            "Ruler icon",
+            "Layout icon",
+            "Window icon"
+          ],
+          "description": "Icon to show in the status bar",
+          "markdownDescription": "Choose the icon to show in the status bar. Available options:\n- `zoom-in`: Magnifying glass with plus\n- `zoom-out`: Magnifying glass with minus\n- `screen-full`: Fullscreen icon\n- `telescope`: Telescope icon\n- `search`: Magnifying glass\n- `eye`: Eye icon\n- `symbol-ruler`: Ruler icon\n- `layout`: Layout icon\n- `window`: Window icon"
         }
       }
     }

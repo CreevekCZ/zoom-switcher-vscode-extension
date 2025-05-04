@@ -2,9 +2,16 @@
 
 All notable changes to the "zoom-switcher" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [0.0.3] - 2025-05-04
 
-## [Unreleased]
+### Changed
+- Enhanced status bar display with two separate configuration options:
+  - `showZoomValue`: Toggle display of numeric zoom level (default: true)
+  - `showProfileName`: Toggle display of zoom profile name (default: false)
+- Removed `showCurrentZoomLevel` setting in favor of more granular controls
+- Improved status bar text formatting when showing both zoom value and profile name
+
+## [0.0.2] - 2025-04-29
 
 ### Added
 - Status bar item that displays the current zoom level
