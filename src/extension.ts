@@ -6,6 +6,7 @@ interface ZoomSwitcherSettings {
 	zoomLevels: ZoomLevel[];
 	showZoomValue: boolean;
 	showProfileName: boolean;
+	enableStatusBarClickCycling: boolean;
 	position: 'left' | 'right';
 	priority: number;
 	statusBarIcon: string;
@@ -26,6 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 			],
 			showZoomValue: config.get<boolean>('showZoomValue') ?? true,
 			showProfileName: config.get<boolean>('showProfileName') ?? false,
+			enableStatusBarClickCycling: config.get<boolean>('enableStatusBarClickCycling') ?? false,
 			position: config.get<'left' | 'right'>('position') || 'right',
 			priority: config.get<number>('priority') ?? 100,
 			statusBarIcon: config.get<string>('statusBarIcon') || 'zoom-in'
@@ -71,10 +73,21 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	// Initialize status bar item
-	zoomStatusBarItem.command = 'zoom-switcher.selectZoom';
-	zoomStatusBarItem.tooltip = 'Select Zoom Level';
+	updateStatusBarCommand();
 	updateStatusBar();
 	zoomStatusBarItem.show();
+	
+	// Function to update status bar command based on click cycling settings
+	function updateStatusBarCommand(): void {
+		if (settings.enableStatusBarClickCycling) {
+			// Set the command to cycle forward on click
+			zoomStatusBarItem.command = 'zoom-switcher.cycleForward';
+			zoomStatusBarItem.tooltip = 'Left-click: Next Zoom Level (use context menu for more options)';
+		} else {
+			zoomStatusBarItem.command = 'zoom-switcher.selectZoom';
+			zoomStatusBarItem.tooltip = 'Select Zoom Level';
+		}
+	}
 
 	// Register settings management commands
 	registerSettingsCommands(context);
@@ -126,6 +139,75 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
+	// Function to cycle to the next or previous zoom level
+	async function cycleZoomLevel(direction: 'forward' | 'backward'): Promise<void> {
+		// Refresh settings in case they changed
+		settings = getSettings();
+
+		if (settings.zoomLevels.length === 0) {
+			vscode.window.showInformationMessage('No zoom levels defined');
+			return;
+		}
+
+		const config = vscode.workspace.getConfiguration('window');
+		const currentZoomLevel = config.get('zoomLevel', 0);
+
+		// Find the current index
+		const currentIndex = settings.zoomLevels.findIndex(zl => zl.level === currentZoomLevel);
+		
+		// Calculate the next index based on direction
+		let nextIndex: number;
+		if (currentIndex === -1) {
+			// Current zoom level is not in the list, find the closest one based on direction
+			if (direction === 'forward') {
+				// Find the next zoom level higher than the current
+				const nextHigher = settings.zoomLevels.filter(zl => zl.level > currentZoomLevel)
+					.sort((a, b) => a.level - b.level)[0];
+				
+				nextIndex = nextHigher ? 
+					settings.zoomLevels.indexOf(nextHigher) : 
+					0; // Wrap to the beginning if none found
+			} else {
+				// Find the next zoom level lower than the current
+				const nextLower = [...settings.zoomLevels]
+					.filter(zl => zl.level < currentZoomLevel)
+					.sort((a, b) => b.level - a.level)[0];
+				
+				nextIndex = nextLower ? 
+					settings.zoomLevels.indexOf(nextLower) : 
+					settings.zoomLevels.length - 1; // Wrap to the end if none found
+			}
+		} else {
+			// Current zoom level is in the list, simply increment or decrement
+			if (direction === 'forward') {
+				nextIndex = (currentIndex + 1) % settings.zoomLevels.length;
+			} else {
+				nextIndex = (currentIndex - 1 + settings.zoomLevels.length) % settings.zoomLevels.length;
+			}
+		}
+
+		// Get the next zoom level
+		const nextZoom = settings.zoomLevels[nextIndex];
+		
+		try {
+			await config.update('zoomLevel', nextZoom.level, vscode.ConfigurationTarget.Global);
+			vscode.window.showInformationMessage(`Zoom level set to: ${nextZoom.name} (${nextZoom.level})`);
+		} catch (error) {
+			vscode.window.showErrorMessage(`Failed to set zoom level: ${error}`);
+		}
+	}
+
+	// Register commands to cycle zoom level
+	const cycleForwardCommand = vscode.commands.registerCommand('zoom-switcher.cycleForward', () => {
+		cycleZoomLevel('forward');
+	});
+
+	const cycleBackwardCommand = vscode.commands.registerCommand('zoom-switcher.cycleBackward', () => {
+		cycleZoomLevel('backward');
+	});
+
+
+
 	// Listen for configuration changes
 	context.subscriptions.push(
 		vscode.workspace.onDidChangeConfiguration(e => {
@@ -149,8 +231,8 @@ export function activate(context: vscode.ExtensionContext) {
 						settings.priority
 					);
 
-					newStatusBarItem.command = 'zoom-switcher.selectZoom';
-					newStatusBarItem.tooltip = 'Select Zoom Level';
+					// Update command based on click cycling setting
+					updateStatusBarCommand();
 
 					// Update current text
 					const config = vscode.workspace.getConfiguration('window');
@@ -190,7 +272,13 @@ export function activate(context: vscode.ExtensionContext) {
 					// Add to subscriptions
 					context.subscriptions.push(newStatusBarItem);
 				} else {
-					// Just update the display based on current settings
+					// Check if clickCycling setting changed
+					if (oldSettings.enableStatusBarClickCycling !== settings.enableStatusBarClickCycling) {
+						// Update the command and tooltip for the status bar item
+						updateStatusBarCommand();
+					}
+					
+					// Update the display based on current settings
 					updateStatusBar();
 				}
 
@@ -212,6 +300,10 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(zoomStatusBarItem);
 	context.subscriptions.push(selectZoomCommand);
 	context.subscriptions.push(refreshZoomCommand);
+	context.subscriptions.push(cycleForwardCommand);
+	context.subscriptions.push(cycleBackwardCommand);
+	context.subscriptions.push(cycleForwardCommand);
+	context.subscriptions.push(cycleBackwardCommand);
 }
 
 // This method is called when your extension is deactivated

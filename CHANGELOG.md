@@ -2,6 +2,18 @@
 
 All notable changes to the "zoom-switcher" extension will be documented in this file.
 
+## [0.0.4] - 2025-05-05
+
+### Added
+- Cycle functionality for navigating through zoom levels:
+  - `Zoom Switcher: Cycle to Next Zoom Level` command to move to the next zoom level
+  - `Zoom Switcher: Cycle to Previous Zoom Level` command to move to the previous zoom level
+  - Optional status bar clicking behavior to cycle through zoom levels
+    - Left-click to cycle forward
+    - Standard selection menu when clicking behavior is disabled (default)
+- New setting `enableStatusBarClickCycling` to toggle click cycling behavior (default: false)
+- Keybinding slots for cycle commands that users can customize
+
 ## [0.0.3] - 2025-05-04
 
 ### Changed

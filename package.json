@@ -2,7 +2,7 @@
   "name": "zoom-switcher",
   "displayName": "Zoom Switcher",
   "description": "Quickly switch between predefined zoom levels via a dropdown menu in the VS Code status bar. Perfect for changing text size when switching between monitors or for presentations.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "publisher": "CreevekCZ",
   "author": {
@@ -36,6 +36,16 @@
         "title": "Refresh Zoom Switcher"
       },
       {
+        "command": "zoom-switcher.cycleForward",
+        "title": "Cycle to Next Zoom Level",
+        "category": "Zoom Switcher"
+      },
+      {
+        "command": "zoom-switcher.cycleBackward",
+        "title": "Cycle to Previous Zoom Level",
+        "category": "Zoom Switcher"
+      },
+      {
         "command": "zoom-switcher.addZoomLevel",
         "title": "Add New Zoom Level",
         "category": "Zoom Switcher"
@@ -49,6 +59,18 @@
         "command": "zoom-switcher.viewZoomLevels",
         "title": "View All Zoom Levels",
         "category": "Zoom Switcher"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "zoom-switcher.cycleForward",
+        "key": "",
+        "when": "editorTextFocus || editorFocus || filesExplorerFocus || panelFocus || terminalFocus"
+      },
+      {
+        "command": "zoom-switcher.cycleBackward",
+        "key": "",
+        "when": "editorTextFocus || editorFocus || filesExplorerFocus || panelFocus || terminalFocus"
       }
     ],
     "configuration": {
@@ -98,6 +120,12 @@
           "default": false,
           "description": "Show the zoom profile name in the status bar",
           "markdownDescription": "When enabled, shows the name of the current zoom profile (e.g., 'Presentation Mode') in the status bar"
+        },
+        "zoomSwitcher.enableStatusBarClickCycling": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable cycling through zoom levels by clicking the status bar item",
+          "markdownDescription": "When enabled, left-clicking the status bar item cycles forward through zoom levels, and right-clicking cycles backward (instead of showing the dropdown)"
         },
         "zoomSwitcher.position": {
           "type": "string",

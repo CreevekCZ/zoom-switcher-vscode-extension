@@ -11,6 +11,7 @@ Do you frequently switch between multiple monitors with different resolutions? D
 - **One-Click Zoom Adjustment**: Change VS Code's zoom level instantly via status bar
 - **Custom Zoom Presets**: Define your own named zoom levels for different scenarios
 - **Visible Indicator**: Shows current zoom level in the status bar
+- **Zoom Cycling**: Quickly cycle through zoom levels with keyboard shortcuts or status bar clicks
 - **Fully Customizable**: Position, appearance, and zoom presets can all be configured
 
 ## How to Use
@@ -31,6 +32,7 @@ This extension contributes the following settings:
 
 * `zoomSwitcher.showZoomValue`: When enabled, shows the numeric zoom value in the status bar (default: true)
 * `zoomSwitcher.showProfileName`: When enabled, shows the current zoom profile name in the status bar (default: false)
+* `zoomSwitcher.enableStatusBarClickCycling`: When enabled, clicking the status bar item cycles forward through zoom levels (default: false)
 
 * `zoomSwitcher.position`: Position of the zoom switcher in the status bar - "left" or "right" (default: "right")
 
@@ -70,6 +72,26 @@ To access these commands:
 1. Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (macOS) to open the Command Palette
 2. Type "Zoom Switcher" to see all available commands
 3. Select the command you want to use
+
+### Cycling Through Zoom Levels
+
+The extension provides two ways to cycle through your zoom levels:
+
+1. **Commands**:
+   - `Zoom Switcher: Cycle to Next Zoom Level` - Move to the next zoom level in the list
+   - `Zoom Switcher: Cycle to Previous Zoom Level` - Move to the previous zoom level in the list
+
+2. **Status Bar Click** (optional):
+   - Enable the setting `zoomSwitcher.enableStatusBarClickCycling`
+   - Left-click on the status bar item to cycle to the next zoom level
+
+### Setting Up Keyboard Shortcuts
+
+To make cycling between zoom levels even faster, you can set up keyboard shortcuts:
+
+1. Open the Keyboard Shortcuts editor (`Ctrl+K Ctrl+S` or `Cmd+K Cmd+S` on macOS)
+2. Search for "Zoom Switcher: Cycle"
+3. Assign your preferred keyboard shortcuts to the cycle commands
 
 ### 2. Using Settings Editor
 
